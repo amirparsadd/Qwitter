@@ -4,11 +4,16 @@ const { Router } = require("express")
 const passport = require("passport")
 const startegy = require("../../localStartegy")
 const { log } = require("../../utils/logger")
+const inputValidator = require("../../middleware/inputValidator")
+const { body, checkSchema } = require("express-validator")
+const auth_base = require("../../schema/auth_base")
 
 const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
 
 router.post("/",
+  checkSchema(auth_base, ["body"]),
+  inputValidator,
   passport.authenticate("local"),
   ( req, res ) => {
     res.sendStatus(200)
