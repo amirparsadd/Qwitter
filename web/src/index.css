@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #1f1f1f;
+    color: white
+  }
+}
