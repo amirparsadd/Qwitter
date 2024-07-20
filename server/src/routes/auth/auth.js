@@ -6,12 +6,25 @@ const startegy = require("../../localStartegy")
 const { log } = require("../../utils/logger")
 
 const router = Router()
-log(LOGGER_NAME, "Router Is Up")
+log(LOGGER_NAME, "🌐 Router Is Up")
 
 router.post("/",
   passport.authenticate("local"),
   ( req, res ) => {
-    
+    res.sendStatus(200)
+})
+
+router.get("/status", ( req, res ) => {
+  if(req.user) return res.status(200).send(req.user)
+  res.sendStatus(401)
+})
+
+router.post("/logout", ( req, res ) => {
+  if(!req.user) return res.sendStatus(401)
+  
+  req.logOut({}, err => {
+    if(err) return res.status(500)
+  })
 })
 
 module.exports = router

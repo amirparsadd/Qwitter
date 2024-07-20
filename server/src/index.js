@@ -16,20 +16,23 @@ const cookieParser = require('cookie-parser');
 const expressSession = require("express-session")
 const logger = require("./middleware/logger");
 const passport = require("passport")
+const sidLocker = require("./middleware/sidLocker") // Locks The SID
 // MIDDLEWARES
 
 const app = express()
-
-const apiRouter = require("./routes/api");
-
 setupMiddlewares()
 
-app.use("/api", apiRouter)
+app.use("/api", require("./routes/api"))
 
-app.listen(PORT, () => {
-  log(LOGGER_NAME, `💾 Server Is Up At Port ${PORT}`)
-  require("./database")()
-});
+launchServer()
+
+async function launchServer(){
+  await require("./database")() // Connect To The DB
+
+  app.listen(PORT, () => {
+    log(LOGGER_NAME, `💾 Server Is Up At Port ${PORT}`)
+  });
+}
 
 function setupMiddlewares(){
   app.use(express.json())
@@ -37,6 +40,7 @@ function setupMiddlewares(){
   app.use(expressSession({secret: SESSION_SECRET, cookie: { maxAge: 1000*60*60*24*15 }, saveUninitialized: true, resave: false}))
   app.use(passport.initialize())
   app.use(passport.session())
+  app.use(sidLocker)
   app.use(cors())
   app.use(cookieParser())
 }

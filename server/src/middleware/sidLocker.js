@@ -1,7 +1,3 @@
-const LOGGER_NAME = "Logger Middleware"
-
-const { log } = require("../utils/logger")
-
 /**
  * 
  * @param {import("express").Request} req 
@@ -9,6 +5,6 @@ const { log } = require("../utils/logger")
  * @param {Function} next
  */
 module.exports = ( req, res, next ) => {
-  log(LOGGER_NAME, `💬 New Request At ${req.url}`)
+  req.session.locked = true
   next()
 }

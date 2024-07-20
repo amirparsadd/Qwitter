@@ -11,9 +11,9 @@ const { log } = require("../utils/logger")
 // ROUTERS
 
 const router = Router()
+log(LOGGER_NAME, "🌐 Router Is Up")
 
 router.use("/auth", auth)
 router.use("/posts", posts)
-log(LOGGER_NAME, "Router Is Up")
 
 module.exports = router

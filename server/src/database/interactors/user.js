@@ -3,8 +3,14 @@ const User = require("../models/User");
 function convert(user, full = false){
   if(full){
     return {
+      dbid: user._id,
       username: user.username,
       password: user.password
+    }
+  }else {
+    return {
+      dbid: user._id,
+      username: user.username
     }
   }
 }
@@ -27,13 +33,14 @@ async function getUserById(id){
   }
 }
 
-async function getUserByUsername(username){
-  try {
-    const result = await User.findOne({username})
-    return convert(result)
-  }catch (err) {
-    throw err
+async function getUserByUsername(username, full = false){
+  const result = await User.findOne({username})
+  
+  if(!result){
+    throw new Error("ERR_DB_NOTFOUND")
   }
+
+  return convert(result, full)
 }
 
 module.exports = {

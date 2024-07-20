@@ -9,7 +9,7 @@ const posts_get = require("../../schema/posts_get")
 const { log } = require("../../utils/logger")
 
 const router = Router()
-log(LOGGER_NAME, "Router Is Up")
+log(LOGGER_NAME, "🌐 Router Is Up")
 
 router.get("/:batch/",
   checkSchema(posts_get, ["params"]),
