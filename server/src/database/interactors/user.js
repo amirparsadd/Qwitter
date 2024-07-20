@@ -1,8 +1,11 @@
 const User = require("../models/User");
 
-function convert(user){
-  return {
-    username: user.username
+function convert(user, full = false){
+  if(full){
+    return {
+      username: user.username,
+      password: user.password
+    }
   }
 }
 
@@ -24,7 +27,17 @@ async function getUserById(id){
   }
 }
 
+async function getUserByUsername(username){
+  try {
+    const result = await User.findOne({username})
+    return convert(result)
+  }catch (err) {
+    throw err
+  }
+}
+
 module.exports = {
   createUser,
-  getUserById
+  getUserById,
+  getUserByUsername
 }

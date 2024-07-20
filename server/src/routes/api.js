@@ -14,6 +14,6 @@ const router = Router()
 
 router.use("/auth", auth)
 router.use("/posts", posts)
-log(LOGGER_NAME, "API Router Is Up")
+log(LOGGER_NAME, "Router Is Up")
 
 module.exports = router
