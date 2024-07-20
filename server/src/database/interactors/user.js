@@ -17,7 +17,8 @@ function convert(user, full = false){
 
 async function createUser(username, password){
   try {
-    const result = await User.create({username, password})
+    const result = await  User.create({username: username, password: password})
+
     return convert(result)
   } catch (err) {
     throw err
@@ -33,11 +34,15 @@ async function getUserById(id){
   }
 }
 
-async function getUserByUsername(username, full = false){
+async function getUserByUsername(username, full = false, errors = true){
   const result = await User.findOne({username})
   
   if(!result){
-    throw new Error("ERR_DB_NOTFOUND")
+    if(errors){
+      throw new Error("ERR_DB_NOTFOUND")
+    }else{
+      return null
+    }
   }
 
   return convert(result, full)
