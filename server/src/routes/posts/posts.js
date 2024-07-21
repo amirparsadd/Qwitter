@@ -29,7 +29,6 @@ router.post("/",
   checkSchema(posts_create, ["body"]),
   inputValidator,
   async ( req, res ) => {
-    // console.log(req.user.)
     const post = await createPost(req.user.dbid, req.body.content)
 
     if(!post) {

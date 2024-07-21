@@ -38,6 +38,7 @@ async function launchServer(){
 
 function setupMiddlewares(){
   app.use(express.json())
+  app.use(cors({origin: "*"}))
   app.use(logger)
   app.use(expressSession({
     secret: SESSION_SECRET,
@@ -53,6 +54,5 @@ function setupMiddlewares(){
   app.use(passport.initialize())
   app.use(passport.session())
   app.use(rateLimit)
-  app.use(cors())
   app.use(cookieParser())
 }
