@@ -14,7 +14,7 @@ const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
 
 router.get("/:batch/",
-  requiresAuth,
+  // requiresAuth,
   checkSchema(posts_get, ["params"]),
   inputValidator,
   async ( req, res ) => {

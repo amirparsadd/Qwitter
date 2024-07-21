@@ -1,30 +1,31 @@
 import { FaArrowRight } from "react-icons/fa6"
 import "./style.css"
 import Qweet from "../../components/Qweet"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 type Props = {}
 
+type a = {
+  author: string,
+  creationDate: number,
+  content: string
+}
+
 function Main({}: Props) {
-  const [ posts, setPosts] = useState([
-    {
-      creator: "mamadpro",
-      uploadDate: 1721488480000,
-      content: "loremipsum dige nadarim dasti ye gohi mitaypam"
-    },
-    {
-      creator: "mamadpro",
-      uploadDate: 1721488480000,
-      content: "loremipsum dige nadarim dasti ye gohi mitaypam"
-    }
-  ])
+  const [ posts, setPosts]: [Array<a>, Function] = useState([])
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/posts/0").then((res) => console.log(res.json().then((result) => {
+      setPosts(result)
+    })))
+  }, [])
 
   return (
     <div className='w-dvw'>
       <div className="flex flex-row flex-wrap">
         {
           posts.reverse().map((val) => {
-            return <Qweet {...val} />
+            return <Qweet creator={val.author} uploadDate={val.creationDate} content={val.content} />
           })
         }
       </div>
