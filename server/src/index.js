@@ -2,7 +2,7 @@ require("dotenv").config()
 
 // STATICS
 const LOGGER_NAME = "Main Thread"
-const { PORT, SESSION_SECRET } = process.env
+const { PORT, SESSION_SECRET, MONGODB_URI } = process.env
 // STATICS
 
 // IMPORTS
@@ -16,7 +16,9 @@ const cookieParser = require('cookie-parser');
 const expressSession = require("express-session")
 const logger = require("./middleware/logger");
 const passport = require("passport")
-const sidLocker = require("./middleware/sidLocker") // Locks The SID
+const sidLocker = require("./middleware/sidLocker"); // Locks The SID
+const MongoStore = require("connect-mongo");
+const { default: mongoose } = require("mongoose");
 // MIDDLEWARES
 
 const app = express()
@@ -37,7 +39,17 @@ async function launchServer(){
 function setupMiddlewares(){
   app.use(express.json())
   app.use(logger)
-  app.use(expressSession({secret: SESSION_SECRET, cookie: { maxAge: 1000*60*60*24*15 }, saveUninitialized: true, resave: false}))
+  app.use(expressSession({
+    secret: SESSION_SECRET,
+    saveUninitialized: true,
+    resave: false,
+    cookie: {
+      maxAge: 1000*60*60*24*15
+    },
+    store: MongoStore.create({
+      mongoUrl: MONGODB_URI
+    })
+  }))
   app.use(passport.initialize())
   app.use(passport.session())
   app.use(sidLocker)

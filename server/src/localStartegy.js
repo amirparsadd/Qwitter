@@ -26,7 +26,6 @@ module.exports = passport.use(
   new Strategy({}, async ( username, password, done ) => {
     try {
       const user = await getUserByUsername(username, true)
-      console.log(user)
       
       if(!comparePasswords(password, user.password)) throw new Error("ERR_PASSWORD_WRONG")
       
