@@ -9,6 +9,8 @@ const { body, checkSchema } = require("express-validator")
 const auth_base = require("../../schema/auth_base")
 const { generateJSONError } = require("../../utils/error")
 const { getUserByUsername, createUser } = require("../../database/interactors/user")
+const requiresAuth = require("../../middleware/requiresAuth")
+const { hashPassword } = require("../../utils/hashing")
 
 const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
@@ -20,8 +22,6 @@ router.post("/",
   ( req, res ) => {
     res.sendStatus(200)
 })
-
-// const 
 
 router.post("/signup",
   checkSchema(auth_base, ["body"]),
@@ -36,12 +36,10 @@ router.post("/signup",
     const { body } = req
 
     if(req.user) return res.status(400).send(generateJSONError({ msg: "ERR_AUTHORIZED", path: ""}))
-    if(await getUserByUsername(body["username"], false, false)){
-      return res.status(400).send(generateJSONError({ msg: "ERR_USERNAME_EXISTS", path: "username"}))
-    }
+    if(await getUserByUsername(body["username"], false, false)) return res.status(400).send(generateJSONError({ msg: "ERR_USERNAME_EXISTS", path: "username"}))
 
     try {
-      const user = await createUser(body["username"], body["password"])
+      const user = await createUser(body["username"], hashPassword(body["password"]))
 
       res.status(201).send(user)
     }catch(err){
@@ -55,12 +53,12 @@ router.get("/status", ( req, res ) => {
   res.sendStatus(401)
 })
 
-router.post("/logout", ( req, res ) => {
-  if(!req.user) return res.sendStatus(401)
-  
-  req.logOut({}, err => {
-    if(err) return res.status(500)
-  })
+router.post("/logout",
+  requiresAuth,
+  ( req, res ) => {
+    req.logOut({}, err => {
+      if(err) return res.status(500)
+    })
 })
 
 module.exports = router
