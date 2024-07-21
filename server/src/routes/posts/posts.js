@@ -8,6 +8,7 @@ const { getLatestPosts, createPost } = require("../../database/interactors/post"
 const posts_get = require("../../schema/posts_get")
 const { log } = require("../../utils/logger")
 const requiresAuth = require("../../middleware/requiresAuth")
+const posts_create = require("../../schema/posts_create")
 
 const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
@@ -25,18 +26,18 @@ router.get("/:batch/",
 
 router.post("/",
   requiresAuth,
-  body("content")
-    .isString()
-    .withMessage("ERR_CONTENT_STRING")
-    
-    .notEmpty()
-    .withMessage("ERR_CONTENT_EMPTY")
-    
-    .isLength({ min: 10, max: 500 })
-    .withMessage("ERR_CONTENT_EMPTY"),
+  checkSchema(posts_create, ["body"]),
   inputValidator,
-  ( req, res ) => {
-    createPost(req.user, req.body.content)
+  async ( req, res ) => {
+    // console.log(req.user.)
+    const post = await createPost(req.user.dbid, req.body.content)
+
+    if(!post) {
+      res.status(400).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: ""}))
+      throw err
+    }
+
+    res.status(201).send(post)
   }
 )
 

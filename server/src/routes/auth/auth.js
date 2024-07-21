@@ -57,7 +57,9 @@ router.post("/logout",
   requiresAuth,
   ( req, res ) => {
     req.logOut({}, err => {
-      if(err) return res.status(500)
+      if(err) return res.sendStatus(500)
+      
+      return res.sendStatus(200)
     })
 })
 

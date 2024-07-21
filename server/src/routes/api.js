@@ -7,6 +7,7 @@ const LOGGER_NAME = "API Router"
 // ROUTERS
 const auth = require("./auth")
 const posts = require("./posts")
+const user = require("./user")
 const { log } = require("../utils/logger")
 // ROUTERS
 
@@ -15,5 +16,6 @@ log(LOGGER_NAME, "🌐 Router Is Up")
 
 router.use("/auth", auth)
 router.use("/posts", posts)
+router.use("/user", user)
 
 module.exports = router

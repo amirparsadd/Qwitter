@@ -25,10 +25,19 @@ async function createUser(username, password){
   }
 }
 
-async function getUserById(id){
+async function getUserById(id, full = false, errors = true){
   try {
     const result = await User.findById(id)
-    return convert(result)
+    
+    if(!result){
+      if(errors){
+        throw new Error("ERR_DB_NOTFOUND")
+      }else{
+        return null
+      }
+    }
+  
+    return convert(result, full)
   }catch (err) {
     throw err
   }

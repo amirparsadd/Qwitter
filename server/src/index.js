@@ -16,7 +16,7 @@ const cookieParser = require('cookie-parser');
 const expressSession = require("express-session")
 const logger = require("./middleware/logger");
 const passport = require("passport")
-const sidLocker = require("./middleware/sidLocker"); // Locks The SID
+const rateLimit = require("./middleware/rateLimit");
 const MongoStore = require("connect-mongo");
 const { default: mongoose } = require("mongoose");
 // MIDDLEWARES
@@ -52,7 +52,7 @@ function setupMiddlewares(){
   }))
   app.use(passport.initialize())
   app.use(passport.session())
-  app.use(sidLocker)
+  app.use(rateLimit)
   app.use(cors())
   app.use(cookieParser())
 }
