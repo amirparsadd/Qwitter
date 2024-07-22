@@ -1,11 +1,9 @@
 const { Schema, model, Types } = require("mongoose")
 
-const autoIncrement = require("mongoose-id-autoincrement")
-
 const PostSchema = new Schema({
   uid: {
-    type: Number,
-    required: true,
+    type: String,
+    default: crypto.randomUUID(),
     unique: true
   },
   author: {
@@ -23,10 +21,4 @@ const PostSchema = new Schema({
   }
 })
 
-
-function init(){
-  PostSchema.plugin(autoIncrement.plugin,  {model: 'Post', field: 'uid', unique: true});
-  module.exports = model("Post", PostSchema)
-}
-
-module.exports = init
+module.exports = model("Post", PostSchema)

@@ -4,6 +4,7 @@ const Post = require("../models/Post")
 function convert(post){
   return {
     author: post.author,
+    uid: post.uid,
     creationDate: post.creationDate,
     content: post.content
   }

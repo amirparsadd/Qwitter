@@ -1,6 +1,6 @@
 const passport = require("passport")
 const { Strategy } = require("passport-local")
-const { getUserByUsername, getUserById } = require("./database/interactors/user")
+const { getUserByUsername, getUserById, createUser } = require("./database/interactors/user")
 const { comparePasswords, hashPassword } = require("./utils/hashing")
 
 passport.serializeUser(( user, done ) => {
@@ -30,16 +30,17 @@ module.exports = passport.use(
         try {
           const user = await createUser(username, hashPassword(password))
     
-          res.status(201).send(user)
+          done(null, user)
         }catch(err){
-          res.status(400).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: ""}))
-          throw err
+          done(new Error("ERR_UNEXPECTED"))
+          console.error(err)
         }
+      }else {
+        if(!comparePasswords(password, user.password)) throw new Error("ERR_PASSWORD_WRONG")
+        
+        done(null, user)
       }
       
-      if(!comparePasswords(password, user.password)) throw new Error("ERR_PASSWORD_WRONG")
-      
-      done(null, user)
     } catch (err) {
       done(err, null)
     }
