@@ -24,7 +24,7 @@ function Main({}: Props) {
     <div className='w-dvw'>
       <div className="flex flex-row flex-wrap">
         {
-          posts.reverse().map((val) => {
+          posts.map((val) => {
             return <Qweet creator={val.author} uploadDate={val.creationDate} content={val.content} />
           })
         }
