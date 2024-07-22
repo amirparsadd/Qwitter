@@ -11,14 +11,23 @@ For the db we used mongodb and mongoose (ORM). interaction with the db is done t
 
 ## API Usage
 
-### /api/auth/
-This endpint accepts a username and password in a json format. if the user is present in the db but the passwords dont match, a `ERR_PASSWORD_WRONG` will be thrown. if anything unexpected happens, `ERR_UNEXPECTED` gets thrown. you will get a 200 if it was successful
+### POST /api/auth/
+This endpint accepts a username and password in a json format. if the user is present in the db but the passwords dont match, a `ERR_PASSWORD_WRONG` will be thrown. if anything unexpected happens, `ERR_UNEXPECTED` gets thrown. you will get a 200 if it was successful.
 
-### /api/auth/status/
-This endpoint returns the public user profile object of the currently logged in user. will return 401 in case you are unauthorized and a `ERR_UNAUTHORIZED` will be thrown
+### GET /api/auth/status/
+This endpoint returns the public user profile object of the currently logged in user. will return 401 in case you are unauthorized and a `ERR_UNAUTHORIZED` will be thrown.
 
-### /api/auth/logout/
-This endpoint logs out the current user. throws `ERR_UNAUTHORIZED` and a 401 if not logged in
+### GET /api/auth/logout/
+This endpoint logs out the current user. throws `ERR_UNAUTHORIZED` and a 401 if not logged in.
+
+### POST /api/posts/
+This endpoint takes in a content body field and creates a post and returns it. throws `ERR_UNAUTHORIZED` and a 401 if not logged in. throws `ERR_UNEXPECTED` and 400 if anything unexpected happens.
+
+### GET /api/posts/:batch/
+This endpoint takes in a batch parameter and returns a batch of posts (size = 50). throws `ERR_UNAUTHORIZED` and a 401 if not logged in.
+
+### GET /api/user/id/:id
+This endpoint takes in an id parameter and returns a user. throws `ERR_UNAUTHORIZED` and a 401 if not logged in. throws a `ERR_USER_NOTFOUND` if the requested user was not found in the DB. throws a `ERR_UNEXPECTED` if anything unexpected happens with a status code of 500
 
 ## Middleware Layers
 First theres the `express.json()` middleware that makes it so only JSON requests are accepted. Then its the `cors({ credentials: true, origin: true })` which is used for cross origin request policy. after that, theres the `logger` middleware used for logging. then theres the `cookieParser()` and the name says it all. then we have:

@@ -7,11 +7,13 @@ const { getUserById } = require("../../database/interactors/user")
 const { mongo } = require("mongoose")
 const { generateJSONError } = require("../../utils/error")
 const { log } = require("../../utils/logger")
+const requiresAuth = require("../../middleware/requiresAuth")
 
 const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
 
 router.get("/id/:id",
+  requiresAuth,
   param("id")
     .isString()
     .withMessage("ERR_ID_STRING")
@@ -33,7 +35,7 @@ router.get("/id/:id",
         return res.status(200).send(user)
 
       } catch (err) {
-        return res.sendStatus(500)
+        return res.status(500).generateJSONError({ msg: "ERR_UNEXPECTED", path: ""})
       }
     }
 )
