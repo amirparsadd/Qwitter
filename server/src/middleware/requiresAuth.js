@@ -1,3 +1,5 @@
+const { generateJSONError } = require("../utils/error")
+
 /**
  * 
  * @param {import("express").Request} req 
@@ -5,6 +7,6 @@
  * @param {Function} next
  */
 module.exports = ( req, res, next ) => {
-  if (!req.user) return res.sendStatus(401)
+  if (!req.user) return res.status(401).send(generateJSONError({ msg: "ERR_UNAUTHORIZED" }, 401))
     next()
 }

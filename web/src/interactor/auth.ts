@@ -1,8 +1,12 @@
 import axios from "axios"
+import endpoints from "../endpoints"
 
 export async function checkAuthStatus(){
   try {
-    const result = await axios.get("http://localhost:8080/api/auth/status", { responseType: "json" })
+    const result = await axios.get(
+      endpoints.API_AUTHSTATUS,
+      { responseType: "json" }
+    )
   
     if(result.status == 200){
       return result.data
@@ -15,5 +19,13 @@ export async function checkAuthStatus(){
 }
 
 export async function authenticate(username: string, password: string) {
-  
+  try {
+    const result = await axios.post(
+      endpoints.API_AUTH, 
+      { username, password },
+      { headers: { "Content-Type": "application/json" }, responseType: "json" }
+    )
+  } catch (err) {
+    return
+  }
 }

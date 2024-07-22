@@ -39,6 +39,7 @@ function setupMiddlewares(){
   app.use(express.json())
   app.use(cors({ credentials: true, origin: true }))
   app.use(logger)
+  app.use(cookieParser())
   app.use(expressSession({
     secret: SESSION_SECRET,
     saveUninitialized: true,
@@ -52,5 +53,4 @@ function setupMiddlewares(){
   }))
   app.use(passport.initialize())
   app.use(passport.session())
-  app.use(cookieParser())
 }
