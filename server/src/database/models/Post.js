@@ -1,9 +1,13 @@
 const { Schema, model, Types } = require("mongoose")
 
+function randomUUID(){
+  return crypto.randomUUID()
+}
+
 const PostSchema = new Schema({
   uid: {
     type: String,
-    default: crypto.randomUUID(),
+    default: randomUUID,
     unique: true
   },
   author: {
