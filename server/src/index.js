@@ -16,7 +16,6 @@ const cookieParser = require('cookie-parser');
 const expressSession = require("express-session")
 const logger = require("./middleware/logger");
 const passport = require("passport")
-const rateLimit = require("./middleware/rateLimit");
 const MongoStore = require("connect-mongo");
 const { default: mongoose } = require("mongoose");
 // MIDDLEWARES
@@ -38,7 +37,7 @@ async function launchServer(){
 
 function setupMiddlewares(){
   app.use(express.json())
-  app.use(cors({origin: "*"}))
+  app.use(cors({ credentials: true, origin: true }))
   app.use(logger)
   app.use(expressSession({
     secret: SESSION_SECRET,
@@ -53,6 +52,5 @@ function setupMiddlewares(){
   }))
   app.use(passport.initialize())
   app.use(passport.session())
-  app.use(rateLimit)
   app.use(cookieParser())
 }

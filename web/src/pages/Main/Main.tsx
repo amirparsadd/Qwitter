@@ -2,6 +2,7 @@ import { FaArrowRight } from "react-icons/fa6"
 import "./style.css"
 import Qweet from "../../components/Qweet"
 import { useEffect, useState } from "react"
+import axios from "axios"
 
 type Props = {}
 
@@ -15,9 +16,14 @@ function Main({}: Props) {
   const [ posts, setPosts]: [Array<a>, Function] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/posts/0").then((res) => console.log(res.json().then((result) => {
-      setPosts(result)
-    })))
+    axios.get("http://localhost:8080/api/posts/0", {
+      responseType: "json"
+    }).then(response => {
+      console.log(response)
+      setPosts((current: any) => {
+        return [...current, ...response.data]
+      })
+    })
   }, [])
 
   return (

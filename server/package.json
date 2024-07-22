@@ -19,6 +19,7 @@
     "express-session": "^1.18.0",
     "express-validator": "^7.1.0",
     "mongoose": "^8.5.1",
+    "mongoose-id-autoincrement": "^1.0.4",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0"
   },

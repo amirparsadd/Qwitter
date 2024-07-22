@@ -1,8 +1,7 @@
 const passport = require("passport")
 const { Strategy } = require("passport-local")
 const { getUserByUsername, getUserById } = require("./database/interactors/user")
-const { compare } = require("bcrypt")
-const { comparePasswords } = require("./utils/hashing")
+const { comparePasswords, hashPassword } = require("./utils/hashing")
 
 passport.serializeUser(( user, done ) => {
   done(null, user.dbid.toString())
@@ -25,7 +24,18 @@ passport.deserializeUser(async ( id, done ) => {
 module.exports = passport.use(
   new Strategy({}, async ( username, password, done ) => {
     try {
-      const user = await getUserByUsername(username, true)
+      const user = await getUserByUsername(username, true, false)
+
+      if(!user){    
+        try {
+          const user = await createUser(username, hashPassword(password))
+    
+          res.status(201).send(user)
+        }catch(err){
+          res.status(400).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: ""}))
+          throw err
+        }
+      }
       
       if(!comparePasswords(password, user.password)) throw new Error("ERR_PASSWORD_WRONG")
       
