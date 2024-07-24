@@ -6,6 +6,7 @@ import "./style.css"
 type Props = {}
 
 function Login({}: Props) {
+
   return (
     <div className='w-dvw h-dvh flex flex-col items-center justify-center'>
       <div className="shadow-lg bg-[#3b3b3b] p-5 rounded-xl">

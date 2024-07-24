@@ -1,35 +1,24 @@
-import axios from "axios"
 import endpoints from "../data/endpoints"
+import { get, post } from "./requests"
+import status from "../data/status"
+import errors from "../data/errors"
+import { generateError } from "../utils/errors"
 
 export async function checkAuthStatus(){
-  try {
-    const result = await axios.get(
-      endpoints.API_AUTHSTATUS,
-      { responseType: "json" }
-    )
-  
-    if(result.status == 200){
-      return result.data
-    }else {
-      return
-    }
-  } catch (err) {
-    return
-  }
+  const result = await get(endpoints.API_AUTHSTATUS)
+
+  if(!result) return
+  if(result.error) return false
+
+  return true
 }
 
 export async function authenticate(username: string, password: string) {
-  try {
-    const result = await axios.post(
-      endpoints.API_AUTH, 
-      { username, password },
-      { headers: { "Content-Type": "application/json" }, responseType: "json" }
-    )
+  const result = await post(endpoints.API_AUTH, { username, password })
 
-    if(result.status = 400){
-      
-    }
-  } catch (err) {
-    return
+  if(!result) return
+
+  if(result.error) {
+    return generateError(result.status, result.data.error)
   }
 }

@@ -1,4 +1,8 @@
-export default {
+export interface KV_String_String {
+  [key: string]: string
+}
+
+const data: KV_String_String = {
   ERR_UNEXPECTED                  : "An unexpected error occured!",
   ERR_UNAUTHORIZED                : "Your account is unauthorized.",
 
@@ -23,3 +27,5 @@ export default {
   ERR_ID_STRING                   : "The password value must be a string.",
   ERR_ID_LEN24                    : "The password value's length must be exactly 24 characters",
 }
+
+export default data
