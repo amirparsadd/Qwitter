@@ -22,18 +22,18 @@ SubSchemas are fields that can be put together to create a schema that can be us
 3. Length must be between 10-500 characters: `ERR_CONTENT_LEN_MIN10_MAX500`
 
 ### Username
-1. Must be a string: `ERR_CONTENT_STRING`
-2. Must not be empty: `ERR_CONTENT_EMPTY`
-3. Length must be between 3-16 characters: `ERR_CONTENT_LEN_MIN3_MAX16`
+1. Must be a string: `ERR_USERNAME_STRING`
+2. Must not be empty: `ERR_USERNAME_EMPTY`
+3. Length must be between 3-16 characters: `ERR_USERNAME_LEN_MIN3_MAX16`
 
 ### Password
-1. Must be a string: `ERR_CONTENT_STRING`
-2. Must not be empty: `ERR_CONTENT_EMPTY`
-3. Length must be between 6-24 characters: `ERR_CONTENT_LEN_MIN6_MAX24`
+1. Must be a string: `ERR_PASSWORD_STRING`
+2. Must not be empty: `ERR_PASSWORD_EMPTY`
+3. Length must be between 6-24 characters: `ERR_PASSWORD_LEN_MIN6_MAX24`
 
 ## User ID
 1. Must be a string: `ERR_ID_STRING`
-2. Must be a length of 24: `ERR_LEN_24`
+2. Must be a length of 24: `ERR_ID_LEN_24`
 
 ## API Usage
 

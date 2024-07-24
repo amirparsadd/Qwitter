@@ -1,5 +1,5 @@
 import axios from "axios"
-import endpoints from "../endpoints"
+import endpoints from "../data/endpoints"
 
 export async function checkAuthStatus(){
   try {
@@ -25,6 +25,10 @@ export async function authenticate(username: string, password: string) {
       { username, password },
       { headers: { "Content-Type": "application/json" }, responseType: "json" }
     )
+
+    if(result.status = 400){
+      
+    }
   } catch (err) {
     return
   }

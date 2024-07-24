@@ -15,7 +15,7 @@ log(LOGGER_NAME, "🌐 Router Is Up")
 
 router.get("/id/:id",
   requiresAuth,
-  checkSchema(user_id)
+  checkSchema(user_id, ["params"]),
   inputValidator,
   async ( req, res ) => {
     try {
