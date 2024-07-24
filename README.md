@@ -5,3 +5,4 @@ This is a twitter clone im actively working on. i made this to learn the fundeme
 - Backend: 50%
 - FrontEnd: 10%
 - Docker Deployment Configs: 0%
+- NGINX Configs: 0%
