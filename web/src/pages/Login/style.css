@@ -12,4 +12,12 @@
   input:focus {
     @apply outline-none;
   }
+
+  input:disabled {
+    @apply opacity-50;
+  }
+
+  button[type=submit]:disabled {
+    @apply opacity-50;
+  }
 }

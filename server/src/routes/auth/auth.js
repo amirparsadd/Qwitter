@@ -18,7 +18,7 @@ router.post("/",
   inputValidator,
   passport.authenticate("local"),
   ( req, res ) => {
-    res.status(200)
+    res.sendStatus(200)
 })
 
 // ! DEPREACATED IN FAVOR OF MULTI USAGE AUTH STRATEGY

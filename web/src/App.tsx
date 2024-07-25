@@ -3,6 +3,9 @@ import Login from "./pages/Login"
 import Main from "./pages/Main"
 import Load from "./pages/Load"
 
+import "react-responsive-modal/styles.css"
+import "./additional-modal-styling.css"
+
 const router = createBrowserRouter([
   {
     path: "/",
