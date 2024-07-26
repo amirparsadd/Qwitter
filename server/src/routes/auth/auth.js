@@ -16,6 +16,13 @@ log(LOGGER_NAME, "🌐 Router Is Up")
 router.post("/",
   checkSchema(auth_base, ["body"]),
   inputValidator,
+  ( req, res, next ) => {
+    if(req.user) {
+      return res.status(403).send(generateJSONError({ msg: "ERR_AUTHORIZED", path: "" }, 403))
+    }
+
+    next()
+  },
   passport.authenticate("local"),
   ( req, res ) => {
     res.sendStatus(200)

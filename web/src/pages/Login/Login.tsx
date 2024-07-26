@@ -4,7 +4,7 @@ import LegalLink from "../../components/LegalLink"
 import "./style.css"
 import { ChangeEvent, FormEvent, useState } from "react"
 import { authenticate } from "../../interactor/auth"
-import { Modal } from 'react-responsive-modal'
+import ActionStatusModal from "../../components/ActionStatusModal"
 
 type Props = {}
 
@@ -14,7 +14,7 @@ function Login({}: Props) {
   const [ formEnabled, setFormEnabled ] = useState(true)
 
   const [ modalState, setModalState ] = useState(false)
-  const [ modalContentState, setModalContentState ] = useState("SUCCESS")
+  const [ modalContentState, setModalContentState ] = useState<"SUCCESS" | "FAIL">("SUCCESS")
   const [ modalResult, setModalResult ] = useState({status: "OK", message: "SUCCESS"})
 
   function formInputBind(stateSetter: Function){
@@ -33,33 +33,31 @@ function Login({}: Props) {
       if(typeof results == "boolean"){
         setModalContentState("SUCCESS")
         setModalState(true)
+        setTimeout(() => {
+          window.location.pathname = "/"
+        }, 2000)
+        return
       }
+
+      setModalContentState("FAIL")
+      setModalResult({
+        status: results.statusText,
+        message: results.message
+      })
+      setModalState(true)
     }else{
-      setModalContentState("Unexpected")
+      setModalContentState("FAIL")
       setModalResult({ status: "Unexpected", message: "An Unexpected Error Occured!\nCheck Your Connection"})
       setModalState(true)
     }
+
+    setFormEnabled(true)
   }
 
   return (
     <div className='w-dvw h-dvh flex flex-col items-center justify-center'>
 
-      <Modal onClose={() => {setModalState(!modalState)}} open={modalState} center>
-        <h1>
-          {
-            modalContentState == "SUCCESS"
-              ? "Success"
-              : `Error - ${modalResult.status}`
-          }
-        </h1>
-        <h2>
-          {
-            modalResult.message == "SUCCESS"
-              ? "Login Successful"
-              : modalResult.message
-          }
-        </h2>
-      </Modal>
+      <ActionStatusModal successMessage="Login Succesful" state={modalState} contentState={modalContentState} result={modalResult} onClose={() => setModalState(false)}/>
 
       <div className="shadow-lg bg-[#3b3b3b] p-5 rounded-xl">
         <div className="pb-3 flex flex-col items-center">

@@ -2,6 +2,7 @@ const passport = require("passport")
 const { Strategy } = require("passport-local")
 const { getUserByUsername, getUserById, createUser } = require("./database/interactors/user")
 const { comparePasswords, hashPassword } = require("./utils/hashing")
+const { generateJSONError } = require("./utils/error")
 
 passport.serializeUser(( user, done ) => {
   done(null, user.dbid.toString())
@@ -42,7 +43,7 @@ module.exports = passport.use(
       }
       
     } catch (err) {
-      done(err, null)
+      done(JSON.stringify(generateJSONError({ msg: err.message, path: "" })), null)
     }
   })
 )

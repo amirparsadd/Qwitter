@@ -1,5 +1,6 @@
 import axios from "axios"
 import status from "../data/status"
+import { extractError } from "../utils/errorExtractor"
 
 export interface KV_String_BODYSUPPORTED {
   [key: string]: any
@@ -29,6 +30,7 @@ export async function get(endpoint: string){
 
 export type BodySupported = string | number | KV_String_BODYSUPPORTED
 
+//* FUCK PASSPORT.JS
 export async function post(endpoint: string, body: KV_String_BODYSUPPORTED | undefined) {
   try {
     const result = await axios.post(
@@ -48,6 +50,22 @@ export async function post(endpoint: string, body: KV_String_BODYSUPPORTED | und
     }
   } catch (err) {
     console.error(err)
-    return
+    if(axios.isAxiosError(err)){
+      if(err.code == "ERR_NETWORK"){
+        return
+      }
+      if(err.code == "ERR_BAD_REQUEST"){
+        return {
+          error: true,
+          status: err.response?.status,
+          data: err.response?.data
+        }
+      }
+      return {
+        error: true,
+        status: err.response?.status,
+        data: extractError(err.response?.data)
+      }
+    }
   } 
 }

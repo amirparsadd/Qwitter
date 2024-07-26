@@ -5,6 +5,7 @@ export interface KV_String_String {
 const data: KV_String_String = {
   ERR_UNEXPECTED                  : "An unexpected error occured!",
   ERR_UNAUTHORIZED                : "Your account is unauthorized.",
+  ERR_AUTHORIZED                  : "Your account is authorized.",
 
   ERR_BATCH_NUMERIC               : "The batch value must be numeric.",
   ERR_BATCH_INTEGER               : "The batch value must not be floating point.",

@@ -9,15 +9,23 @@ type Props = {}
 
 function Login({}: Props) {
 
+  // function redirect(path){
+  //   setTimeout(() => {
+      // window.location.
+  //   }, 1500)
+  // }
+
   useEffect(() => {
     async function wrapper() {
       const authStatus = await checkAuthStatus()
 
-      if(!authStatus){
-        window.location.pathname = "/auth"
-      }else{
-        window.location.pathname = "/home"
-      }
+      setTimeout(() => {
+        if(!authStatus){
+          window.location.pathname = "/auth"
+        }else{
+          window.location.pathname = "/home"
+        }
+      }, 1000)
     }    
 
     wrapper()
