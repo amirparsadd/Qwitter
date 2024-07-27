@@ -2,6 +2,7 @@ import axios from "axios"
 import status from "../data/status"
 import { extractError } from "../utils/errorExtractor"
 
+export type BodySupported = string | number | KV_String_BODYSUPPORTED
 export interface KV_String_BODYSUPPORTED {
   [key: string]: BodySupported
 }
@@ -24,7 +25,6 @@ export async function get(endpoint: string){
   }
 }
 
-export type BodySupported = string | number | KV_String_BODYSUPPORTED
 
 //* FUCK PASSPORT.JS
 export async function post(endpoint: string, body: KV_String_BODYSUPPORTED | undefined) {
