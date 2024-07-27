@@ -3,7 +3,7 @@ import status from "../data/status"
 import { extractError } from "../utils/errorExtractor"
 
 export interface KV_String_BODYSUPPORTED {
-  [key: string]: any
+  [key: string]: BodySupported
 }
 
 export async function get(endpoint: string){
@@ -16,11 +16,7 @@ export async function get(endpoint: string){
     if(status.success[result.status]){
       return result.data
     }else {
-      return {
-        error: true,
-        status: result.status,
-        data: result.data
-      }
+      return generateRawError(result.status, result.data)
     }
   } catch (err) {
     console.error(err)
@@ -42,11 +38,7 @@ export async function post(endpoint: string, body: KV_String_BODYSUPPORTED | und
     if(status.success[result.status]){
       return result.data
     }else {
-      return {
-        error: true,
-        status: result.status,
-        data: result.data
-      }
+      return generateRawError(result.status, result.data)
     }
   } catch (err) {
     console.error(err)
@@ -55,17 +47,17 @@ export async function post(endpoint: string, body: KV_String_BODYSUPPORTED | und
         return
       }
       if(err.code == "ERR_BAD_REQUEST"){
-        return {
-          error: true,
-          status: err.response?.status,
-          data: err.response?.data
-        }
+        return generateRawError(err.response?.status, err.response?.data)
       }
-      return {
-        error: true,
-        status: err.response?.status,
-        data: extractError(err.response?.data)
-      }
+      return generateRawError(err.response?.status, extractError(err.response?.data))
     }
   } 
+}
+
+function generateRawError(status: number | undefined, data: any){
+  return {
+    error: true,
+    status: status,
+    data: data
+  }
 }
