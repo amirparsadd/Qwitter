@@ -19,7 +19,7 @@ router.get("/:batch/",
   inputValidator,
   async ( req, res ) => {
     const batch = req.params.batch || 0
-    const result = await getLatestPosts([ batch * 50, (batch + 1) * 50 ]);
+    const result = await getLatestPosts([ batch * 50, (batch + 1) * 50 ])
 
     res.send(result)
 })

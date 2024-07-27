@@ -4,7 +4,7 @@ import LegalLink from "../../components/LegalLink"
 import "./style.css"
 import { ChangeEvent, FormEvent, useState } from "react"
 import { authenticate } from "../../interactor/auth"
-import ActionStatusModal from "../../components/ActionStatusModal"
+import ActionStatusModal, { ContentState } from "../../components/ActionStatusModal"
 
 type Props = {}
 
@@ -14,7 +14,7 @@ function Login({}: Props) {
   const [ formEnabled, setFormEnabled ] = useState(true)
 
   const [ modalState, setModalState ] = useState(false)
-  const [ modalContentState, setModalContentState ] = useState<"SUCCESS" | "FAIL">("SUCCESS")
+  const [ modalContentState, setModalContentState ] = useState<ContentState>("SUCCESS")
   const [ modalResult, setModalResult ] = useState({status: "OK", message: "SUCCESS"})
 
   function formInputBind(stateSetter: Function){

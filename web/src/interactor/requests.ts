@@ -9,22 +9,14 @@ export interface KV_String_BODYSUPPORTED {
 
 export async function get(endpoint: string){
   try {
-    const result = await axios.get(
-      endpoint,
-      { responseType: "json" }
-    )
-  
-    if(status.success[result.status]){
-      return result.data
-    }else {
-      return generateRawError(result.status, result.data)
-    }
+    const result = await axios.get(endpoint, { responseType: "json" })
+    if(status.success[result.status]) return result.data
+    
+    return generateRawError(result.status, result.data)
   } catch (err) {
     console.error(err)
-    return
   }
 }
-
 
 //* FUCK PASSPORT.JS
 export async function post(endpoint: string, body: KV_String_BODYSUPPORTED | undefined) {
@@ -35,22 +27,16 @@ export async function post(endpoint: string, body: KV_String_BODYSUPPORTED | und
       { headers: { "Content-Type": "application/json" }, responseType: "json" }
     )
 
-    if(status.success[result.status]){
-      return result.data
-    }else {
-      return generateRawError(result.status, result.data)
-    }
+    return status.success[result.status] ? result.data : generateRawError(result.status, result.data)
   } catch (err) {
     console.error(err)
-    if(axios.isAxiosError(err)){
-      if(err.code == "ERR_NETWORK"){
-        return
-      }
-      if(err.code == "ERR_BAD_REQUEST"){
-        return generateRawError(err.response?.status, err.response?.data)
-      }
-      return generateRawError(err.response?.status, extractError(err.response?.data))
-    }
+    
+    if(!axios.isAxiosError(err)) return
+
+    const isNetworkError = err.code == "ERR_NETWORK"
+    if(isNetworkError) return
+
+    return generateRawError(err.response?.status, err.code == "ERR_BAD_REQUEST" ? err.response?.data : extractError(err.response?.data))
   } 
 }
 

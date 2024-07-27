@@ -1,4 +1,4 @@
-const batch = require("./subschemas/batch");
+const batch = require("./subschemas/batch")
 
 module.exports = {
   batch

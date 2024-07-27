@@ -1,4 +1,4 @@
-const content = require("./subschemas/content");
+const content = require("./subschemas/content")
 
 module.exports = {
   content

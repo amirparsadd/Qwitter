@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/User")
 
 function convert(user, full = false){
   if(full){

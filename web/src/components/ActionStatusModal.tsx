@@ -5,9 +5,11 @@ type ModalResult = {
   message: string
 }
 
+export type ContentState = "SUCCESS" | "FAIL"
+
 type Props = {
   state: boolean,
-  contentState: "SUCCESS" | "FAIL",
+  contentState: ContentState,
   result: ModalResult,
   onClose: () => void,
   successMessage: string

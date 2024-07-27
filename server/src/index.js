@@ -7,17 +7,17 @@ const { PORT, SESSION_SECRET, MONGODB_URI } = process.env
 
 // IMPORTS
 const express = require("express")
-const { log } = require("./utils/logger");
+const { log } = require("./utils/logger")
 // IMPORTS
 
 // MIDDLEWARES
 const cors = require("cors")
-const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser')
 const expressSession = require("express-session")
-const logger = require("./middleware/logger");
+const logger = require("./middleware/logger")
 const passport = require("passport")
-const MongoStore = require("connect-mongo");
-const { default: mongoose } = require("mongoose");
+const MongoStore = require("connect-mongo")
+const { default: mongoose } = require("mongoose")
 // MIDDLEWARES
 
 const app = express()
@@ -32,7 +32,7 @@ async function launchServer(){
 
   app.listen(PORT, () => {
     log(LOGGER_NAME, `💾 Server Is Up At Port ${PORT}`)
-  });
+  })
 }
 
 function setupMiddlewares(){

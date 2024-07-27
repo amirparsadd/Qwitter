@@ -1,5 +1,5 @@
-const password = require("./subschemas/password");
-const username = require("./subschemas/username");
+const password = require("./subschemas/password")
+const username = require("./subschemas/username")
 
 module.exports = {
   username,
