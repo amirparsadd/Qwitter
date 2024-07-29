@@ -3,22 +3,15 @@ import { FaSpinner } from "react-icons/fa6"
 import "./style.css"
 import { useEffect } from "react"
 import { checkAuthStatus } from "../../interactor/auth"
-import { redirect } from "react-router-dom"
 
 type Props = {}
 
 function Login({}: Props) {
-
-  // function redirect(path){
-  //   setTimeout(() => {
-      // window.location.
-  //   }, 1500)
-  // }
-
   useEffect(() => {
     async function wrapper() {
       const authStatus = await checkAuthStatus()
 
+      // Delay it a bit to make it seem more real
       setTimeout(() => {
         if(!authStatus){
           window.location.pathname = "/auth"
@@ -28,6 +21,7 @@ function Login({}: Props) {
       }, 1000)
     }    
 
+    // Needed for async functions
     wrapper()
   }, [])
 

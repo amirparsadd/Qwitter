@@ -11,6 +11,15 @@ export async function checkAuthStatus(){
   return true
 }
 
+export async function getAuthData(){
+  const result = await get(endpoints.API_AUTHSTATUS)
+
+  if(!result) return
+  if(result.error) return false
+
+  return result
+}
+
 export async function authenticate(username: string, password: string) {
   const result = await post(endpoints.API_AUTH, { username, password })
 

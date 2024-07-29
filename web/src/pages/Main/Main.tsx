@@ -1,50 +1,113 @@
 import { FaArrowRight } from "react-icons/fa6"
 import "./style.css"
 import Qweet from "../../components/Qweet"
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
+import { createPost, getPosts } from "../../interactor/posts"
+import { getAuthData } from "../../interactor/auth"
 
 type Props = {}
 
-type a = {
+interface KV_String_String {
+  [key: string]: string
+}
+
+type Post = {
   author: string,
   creationDate: number,
   content: string
 }
 
-function Main({}: Props) {
-  const [ posts, setPosts]: [Array<a>, Function] = useState([])
+let usernameCache: KV_String_String = {}
 
-  useEffect(() => {
-    axios.get("http://localhost:8080/api/posts/0", {
-      responseType: "json"
-    }).then(response => {
-      console.log(response)
-      setPosts((current: any) => {
-        return [...current, ...response.data]
+function Main({}: Props) {
+  const [ posts, setPosts] = useState<Array<Array<Post>>>([])
+  const [ batch, setBatch ] = useState(0)
+  const [ username, setUsername ] = useState("loading")
+
+  const [ formInput, setFormInput ] = useState("")
+  const [ formEnabled, setFormEnabled ] = useState(true)
+
+  const joinedPosts = useMemo(() => {
+    let result: Array<Post> = []
+    posts.forEach(chunk => {
+      chunk.map(async (post) => {
+        post.author = "FIXME" // FIXME Get Username From Server Or Make The Server Send It
       })
+      result = [...result, ...chunk]
     })
+
+    return result
+  }, [ posts ])
+
+  function formInputBind(stateSetter: Function){
+    return function(e: ChangeEvent<HTMLInputElement>){
+      stateSetter(e.target.value)
+    }
+  }
+
+  async function formSubmit(e: FormEvent<HTMLFormElement>){
+    e.preventDefault()
+    setFormEnabled(false)
+
+    const result = await createPost(formInput)
+
+    if(result){
+      window.location.reload()
+    }else {
+      window.alert("An Error Occured!")
+    }
+  }
+
+  //* Auth Related
+  useEffect(() => {
+    async function wrapper() {
+      const data = await getAuthData()
+      if(!data) window.location.pathname = "/"
+      
+      setUsername(data.username)
+    }
+    
+    wrapper()
   }, [])
+  
+  //* Post Loading
+  useEffect(() => {
+    async function wrapper(){
+      const posts = await getPosts(batch)
+
+      setPosts(current => {
+        return [...current, posts]
+      })
+    }
+
+    wrapper()
+  }, [ batch ])
 
   return (
-    <div className='w-dvw'>
+    <div className='w-[95dvw] flex flex-col'>
       <div className="flex flex-row flex-wrap">
         {
-          posts.map((val) => {
-            return <Qweet creator={val.author} uploadDate={val.creationDate} content={val.content} />
-          })
+          posts
+          ? joinedPosts.map((val) => {
+              return <Qweet creator={val.author} uploadDate={val.creationDate} content={val.content} />
+            })
+          : "An Error Occured While Loading Posts"
         }
       </div>
-      <div className="fixed bottom-0 flex items-center gap-1 w-screen">
-        <span>UserName</span>
-
-        <div className="flex w-full">
-          <input className="w-full" type="text" placeholder="Qweet Something..." />
-          <button className="m-2 px-5 inline-block flex-1" type="submit">
-            <FaArrowRight/>
-            Qweet
+      <div className="fixed bottom-0 flex items-center gap-1 w-full">
+        <span>{username}</span>
+        <form onSubmit={formSubmit} className="flex w-full">
+          <input
+            onChange={formInputBind(setFormInput)} value={formInput}
+            className="w-[70dvw]" type="text" placeholder="Qweet Something..."
+            minLength={10} maxLength={500} required={true}/>
+          <button
+            className="m-2 flex-1" type="submit"
+            disabled={!formEnabled}>
+              <FaArrowRight/>
+              Qweet
           </button>
-        </div>
+        </form>
       </div>
     </div>
   )

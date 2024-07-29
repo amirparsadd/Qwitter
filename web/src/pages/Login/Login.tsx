@@ -33,6 +33,8 @@ function Login({}: Props) {
       if(typeof results == "boolean"){
         setModalContentState("SUCCESS")
         setModalState(true)
+
+        // Delay it a bit so the user can see the success popup
         setTimeout(() => {
           window.location.pathname = "/"
         }, 2000)
