@@ -7,17 +7,17 @@ import { getAuthData } from "../../interactor/auth"
 
 type Props = {}
 
-interface KV_String_String {
-  [key: string]: string
+type Author = {
+  dbid: string,
+  username: string
 }
 
 type Post = {
-  author: string,
+  author: Author,
   creationDate: number,
-  content: string
+  content: string,
+  uid: string
 }
-
-let usernameCache: KV_String_String = {}
 
 function Main({}: Props) {
   const [ posts, setPosts] = useState<Array<Array<Post>>>([])
@@ -30,11 +30,10 @@ function Main({}: Props) {
   const joinedPosts = useMemo(() => {
     let result: Array<Post> = []
     posts.forEach(chunk => {
-      chunk.map(async (post) => {
-        post.author = "FIXME" // FIXME Get Username From Server Or Make The Server Send It
-      })
       result = [...result, ...chunk]
     })
+
+    console.log(result)
 
     return result
   }, [ posts ])
@@ -89,7 +88,8 @@ function Main({}: Props) {
         {
           posts
           ? joinedPosts.map((val) => {
-              return <Qweet creator={val.author} uploadDate={val.creationDate} content={val.content} />
+              console.log(val)
+              return <Qweet key={val.uid} creator={val.author.username} uploadDate={val.creationDate} content={val.content || "Failed To Load"} />
             })
           : "An Error Occured While Loading Posts"
         }

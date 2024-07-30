@@ -1,9 +1,20 @@
 const { Types } = require("mongoose")
 const Post = require("../models/Post")
+const { getUserById } = require("./user")
 
-function convert(post){
+cache = {}
+
+async function convert(post){
+  let author;
+  if(cache[post.author]) {
+    author = cache[post.author]
+  }else {
+    author = await getUserById(post.author)
+    cache[post.author] = author
+  }
+
   return {
-    author: post.author,
+    author,
     uid: post.uid,
     creationDate: post.creationDate,
     content: post.content
@@ -14,11 +25,11 @@ function convert(post){
  * 
  * @param {Array} postArray 
  */
-function convertArray(postArray){
+async function convertArray(postArray){
   const result = []
 
-  postArray.forEach(val => {
-    result.push(convert(val))
+  postArray.forEach( async (val) => {
+    result.push( await convert(val) )
   })
 
   return result

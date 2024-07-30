@@ -5,7 +5,6 @@ export async function getPosts(batch: number){
   try{
     const result = await get(endpoints.API_POSTS_GET(batch))
   
-    console.log(result) // FIXME Remove Debug
     return result
   } catch(err){
     return
