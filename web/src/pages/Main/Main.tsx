@@ -74,6 +74,10 @@ function Main({}: Props) {
     async function wrapper(){
       const posts = await getPosts(batch)
 
+      if(posts.length === 0){
+        window.alert("No New Content Found")
+      }
+
       setPosts(current => {
         return [...current, posts]
       })
