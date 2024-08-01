@@ -8,7 +8,7 @@ type Props = {
 
 function Qweet({ uploadDate, creator, content }: Props) {
   return (
-    <div className='bg-[#3b3b3b] w-[45dvw] rounded-md p-4 m-2'>
+    <div className='bg-[#3b3b3b] w-[45vw] rounded-md p-4 m-2'>
       <div className="flex justify-between">
         <span className="font-bold">
           {creator}

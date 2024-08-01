@@ -22,6 +22,7 @@ type Post = {
 function Main({}: Props) {
   const [ posts, setPosts] = useState<Array<Array<Post>>>([])
   const [ batch, setBatch ] = useState(0)
+  const [ endOfPosts, setEndOfPosts ] = useState(false)
   const [ username, setUsername ] = useState("loading")
 
   const [ formInput, setFormInput ] = useState("")
@@ -76,6 +77,7 @@ function Main({}: Props) {
 
       if(posts.length === 0){
         window.alert("No New Content Found")
+        setEndOfPosts(true)
       }
 
       setPosts(current => {
@@ -99,12 +101,17 @@ function Main({}: Props) {
         }
       </div>
       <div className="flex justify-center mt-2 mb-[50dvh]">
-        <div onClick={(e) => setBatch(batch + 1)} className="bg-gray-500 p-2 rounded-full cursor-pointer">
+        <div
+          onClick={() => {
+            if(endOfPosts) return
+            setBatch(batch + 1)
+          }}
+          className={`bg-gray-500 p-2 rounded-full ${endOfPosts ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}>
           <FaArrowsRotate/>
         </div>
       </div>
       <div className="fixed bottom-0 flex items-center gap-1 w-full">
-        <span>{username}</span>
+        <span className="select-none">{username}</span>
         <form onSubmit={formSubmit} className="flex w-full">
           <input
             onChange={formInputBind(setFormInput)} value={formInput}
