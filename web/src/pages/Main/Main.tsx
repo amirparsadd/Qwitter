@@ -1,4 +1,4 @@
-import { FaArrowRight } from "react-icons/fa6"
+import { FaArrowRight, FaArrowsRotate } from "react-icons/fa6"
 import "./style.css"
 import Qweet from "../../components/Qweet"
 import { ChangeEvent, FormEvent, useEffect, useMemo, useState } from "react"
@@ -93,6 +93,11 @@ function Main({}: Props) {
             })
           : "An Error Occured While Loading Posts"
         }
+      </div>
+      <div className="flex justify-center mt-2 mb-[50dvh]">
+        <div onClick={(e) => setBatch(batch + 1)} className="bg-gray-500 p-2 rounded-full cursor-pointer">
+          <FaArrowsRotate/>
+        </div>
       </div>
       <div className="fixed bottom-0 flex items-center gap-1 w-full">
         <span>{username}</span>
