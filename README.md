@@ -6,7 +6,7 @@ This is a twitter clone im actively working on. i made this to learn the fundeme
 
 ### Front End
 
-We Use **React** As The Framework And **NGINX** For A Reverse Proxy To Balance Load. We Also Use **Express.JS** To Host The Files In It.
+We Use **React** As The Framework And **NGINX** For A Reverse Proxy To Balance Load.
 
 ### Back End
 
