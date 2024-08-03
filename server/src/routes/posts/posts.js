@@ -24,6 +24,19 @@ router.get("/:batch/",
     res.send(result)
 })
 
+router.delete("/",
+  requiresAuth,
+  body("uid")
+    .isString()
+    .withMessage("ERR_POST_UID_STRING")
+    
+    .isLength({ min: 24, max: 24 })
+    .withMessage("ERR_POST_UID_LEN_24"),
+  inputValidator,
+  (req, res) => {
+    
+  })
+
 router.post("/",
   requiresAuth,
   checkSchema(posts_create, ["body"]),
