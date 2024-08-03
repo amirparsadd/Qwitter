@@ -5,6 +5,8 @@ const { getUserById } = require("./user")
 cache = {}
 
 async function convert(post){
+  if(post === null || post === undefined) return null
+
   let author;
   if(cache[post.author]) {
     author = cache[post.author]
@@ -53,14 +55,30 @@ async function getLatestPosts(range = [0 , 50]){
   try {
     // const startTime = Date.now()
     const result = await Post.find({}).sort({_id: -1}).skip(range[0]).limit(range[1]) // Thanks To My Bro MongoDB AI
-    // console.log(Date.now() - startTime)
     return convertArray(result)
   } catch (err) {
     throw err
   }
 }
 
+async function getPostByUID(uid){
+  const result = await Post.findOne({ uid })
+
+  return convert(result)
+}
+
+async function deletePostByUID(uid){
+  try {
+    await Post.findOneAndDelete({ uid })
+    return true
+  } catch (err) {
+    return false
+  }
+}
+
 module.exports = {
   createPost,
-  getLatestPosts
+  getLatestPosts,
+  getPostByUID,
+  deletePostByUID
 }

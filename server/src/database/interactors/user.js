@@ -3,13 +3,13 @@ const User = require("../models/User")
 function convert(user, full = false){
   if(full){
     return {
-      dbid: user._id,
+      dbid: user._id.toString(),
       username: user.username,
       password: user.password
     }
   }else {
     return {
-      dbid: user._id,
+      dbid: user._id.toString(),
       username: user.username
     }
   }
