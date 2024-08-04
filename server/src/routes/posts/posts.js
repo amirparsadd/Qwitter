@@ -10,6 +10,7 @@ const { log } = require("../../utils/logger")
 const requiresAuth = require("../../middleware/requiresAuth")
 const posts_create = require("../../schema/posts_create")
 const { generateJSONError } = require("../../utils/error")
+const post_delete = require("../../schema/post_delete")
 
 const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
@@ -25,28 +26,6 @@ router.get("/:batch/",
     res.send(result)
 })
 
-router.delete("/",
-  requiresAuth,
-  body("uid")
-    .isString()
-    .withMessage("ERR_POST_UID_STRING")
-    
-    .isLength({ min: 24, max: 24 })
-    .withMessage("ERR_POST_UID_LEN_24"),
-  inputValidator,
-  async (req, res) => {
-    const post = await getPostByUID(req.body.uid)
-
-    if(req.user.dbid != post.author.dbid) return res.status(403).send(generateJSONError({ msg: "ERR_POST_OWNERSHIP", path: "uid" }, 403))
-
-    const action = await deletePostByUID(req.body.uid)
-
-    if(action){
-      return res.sendStatus(200)
-    } else {
-      return res.status(500).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: "" }, 500))
-    }
-  })
 
 router.post("/",
   requiresAuth,
@@ -54,14 +33,32 @@ router.post("/",
   inputValidator,
   async ( req, res ) => {
     const post = await createPost(req.user.dbid, req.body.content)
-
+    
     if(!post) {
       res.status(400).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: ""}))
       throw err
     }
-
+    
     res.status(201).send(post)
   }
 )
+
+router.delete("/",
+  requiresAuth,
+  checkSchema(post_delete, ["body"]),
+  inputValidator,
+  async (req, res) => {
+    const post = await getPostByUID(req.body.uid)
+    
+    if(req.user.dbid != post.author.dbid) return res.status(403).send(generateJSONError({ msg: "ERR_POST_OWNERSHIP", path: "uid" }, 403))
+      
+    const action = await deletePostByUID(req.body.uid)
+    
+    if(action){
+      return res.sendStatus(200)
+    } else {
+      return res.status(500).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: "" }, 500))
+    }
+})
 
 module.exports = router
