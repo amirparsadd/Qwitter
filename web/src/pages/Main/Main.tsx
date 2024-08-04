@@ -76,8 +76,8 @@ function Main({}: Props) {
       const posts = await getPosts(batch)
 
       if(posts.length === 0){
-        window.alert("No New Content Found")
         setEndOfPosts(true)
+        window.alert("No New Content Found")
       }
 
       setPosts(current => {
