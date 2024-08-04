@@ -27,6 +27,11 @@ SubSchemas are fields that can be put together to create a schema that can be us
 2. Must not be empty: `ERR_CONTENT_EMPTY`
 3. Length must be between 10-500 characters: `ERR_CONTENT_LEN_MIN10_MAX500`
 
+### Post UID
+
+1. Must be a string: `ERR_POST_UID_STRING`
+2. Length must be 36: `ERR_POST_UID_LEN_36`
+
 ### Username
 
 1. Must be a string: `ERR_USERNAME_STRING`
@@ -61,6 +66,10 @@ This endpoint logs out the current user. throws `ERR_UNAUTHORIZED` and a 401 if 
 ### POST /api/posts/
 
 This endpoint takes in a `content: Post Content` body field and creates a post and returns it. throws `ERR_UNAUTHORIZED` and a 401 if not logged in. throws `ERR_UNEXPECTED` and 400 if anything unexpected happens.
+
+### DELETE /api/posts
+
+This endpoint takes in a `uid: Post UID` body field and deletes the specified post. Will throw a `ERR_UNAUTHORIZED` if not logged in. will throw a `ERR_POST_OWNERSHIP` if you are not the post author. Will throw a `ERR_UNEXPECTED` if something unexpected happens.
 
 ### GET /api/posts/:batch/
 
