@@ -1,6 +1,8 @@
 # Server Docs
 
-<p style="color:#F64444">IMPORTANT!!!! This app is supposed to be a shitty app made in 15~ hours</p>
+<p style="color:#F64444">
+  IMPORTANT!!!! This app is supposed to be a shitty app made in a few days
+</p>
 
 ## Database
 
@@ -67,15 +69,15 @@ This endpoint logs out the current user. throws `ERR_UNAUTHORIZED` and a 401 if 
 
 This endpoint takes in a `content: Post Content` body field and creates a post and returns it. throws `ERR_UNAUTHORIZED` and a 401 if not logged in. throws `ERR_UNEXPECTED` and 400 if anything unexpected happens.
 
-### DELETE /api/posts
+### DELETE /api/posts/:uid/
 
-This endpoint takes in a `uid: Post UID` body field and deletes the specified post. Will throw a `ERR_UNAUTHORIZED` if not logged in. will throw a `ERR_POST_OWNERSHIP` if you are not the post author. Will throw a `ERR_UNEXPECTED` if something unexpected happens.
+This endpoint takes in a `uid: Post UID` param field and deletes the specified post. Will throw a `ERR_UNAUTHORIZED` if not logged in. will throw a `ERR_POST_OWNERSHIP` if you are not the post author. Will throw a `ERR_UNEXPECTED` if something unexpected happens.
 
 ### GET /api/posts/:batch/
 
 This endpoint takes in a `batch: Post Batch` parameter and returns a batch of posts (size = 50). throws `ERR_UNAUTHORIZED` and a 401 if not logged in.
 
-### GET /api/user/id/:id
+### GET /api/user/id/:id/
 
 This endpoint takes in an `id: User ID` parameter and returns a user. throws `ERR_UNAUTHORIZED` and a 401 if not logged in. throws a `ERR_USER_NOTFOUND` if the requested user was not found in the DB. throws a `ERR_UNEXPECTED` if anything unexpected happens with a status code of 500
 
@@ -112,5 +114,6 @@ app.use(passport.session())
 
 ## Authentication
 
-Authorization is done through passport.js's local strategy. It works with a username and a password.<br/>
+Authorization is done through passport.js's local strategy. It works with a username and a password.
+
 The password is hashed with bcrypt and salting.

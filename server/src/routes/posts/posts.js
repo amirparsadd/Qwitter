@@ -43,16 +43,16 @@ router.post("/",
   }
 )
 
-router.delete("/",
+router.delete("/:uid/",
   requiresAuth,
-  checkSchema(post_delete, ["body"]),
+  checkSchema(post_delete, ["params"]),
   inputValidator,
   async (req, res) => {
-    const post = await getPostByUID(req.body.uid)
+    const post = await getPostByUID(req.params.uid)
     
     if(req.user.dbid != post.author.dbid) return res.status(403).send(generateJSONError({ msg: "ERR_POST_OWNERSHIP", path: "uid" }, 403))
       
-    const action = await deletePostByUID(req.body.uid)
+    const action = await deletePostByUID(req.params.uid)
     
     if(action){
       return res.sendStatus(200)

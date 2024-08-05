@@ -1,14 +1,16 @@
 import prettyMilliseconds from "pretty-ms"
 import { FaThumbsDown, FaThumbsUp, FaTrashCan } from "react-icons/fa6"
+import { deletePost } from "../interactor/posts"
 
 type Props = {
   uploadDate: number,
   creator: string,
   content: string,
-  currentUser: string // The Current Viewing User's Username
+  currentUser: string, // The Current Viewing User's Username
+  uid: string
 }
 
-function Qweet({ uploadDate, creator, content, currentUser }: Props) {
+function Qweet({ uploadDate, creator, content, currentUser, uid }: Props) {
   return (
     <div className='bg-[#3b3b3b] w-[45vw] rounded-md p-4 m-2'>
       <div className="flex justify-between">
@@ -19,7 +21,12 @@ function Qweet({ uploadDate, creator, content, currentUser }: Props) {
           {
             currentUser == creator
               ?
-                <div className=" cursor-pointer">
+                <div onClick={async () => {
+                  const result = await deletePost(uid)
+
+                  if(result) return window.location.reload()
+                  window.alert("An unexpected error occured!")
+                }} className="cursor-pointer">
                   <FaTrashCan className="transition-all ease-in duration-300 text-red-400 hover:text-red-600"/>
                 </div>
               :

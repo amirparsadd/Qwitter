@@ -6,5 +6,8 @@ export default {
   API_POSTS_GET: (batch: number) => {
     return API + "posts/" + batch
   },
-  API_POSTS_POST: API + "posts/"
+  API_POSTS_POST: API + "posts/",
+  API_POSTS_DELETE: (uid: string) => {
+    return API + "posts/" + uid
+  }
 }
