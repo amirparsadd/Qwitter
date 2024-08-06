@@ -62,3 +62,5 @@ router.delete("/:uid/",
 })
 
 module.exports = router
+
+// TODO Setup Likes

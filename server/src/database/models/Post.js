@@ -15,6 +15,18 @@ const PostSchema = new Schema({
     ref: "User",
     required: true
   },
+  actions: {
+    likes: {
+      type: Types.ObjectId,
+      ref: "PostAction",
+      default: 0
+    },
+    dislikes: {
+      type: Types.ObjectId,
+      ref: "PostAction",
+      default: 0
+    },
+  },
   creationDate: {
     type: Number,
     required: true,
