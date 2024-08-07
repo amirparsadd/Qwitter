@@ -17,14 +17,14 @@ const PostSchema = new Schema({
   },
   actions: {
     likes: {
-      type: Types.ObjectId,
+      type: [Types.ObjectId],
       ref: "PostAction",
-      default: 0
+      default: []
     },
     dislikes: {
-      type: Types.ObjectId,
+      type: [Types.ObjectId],
       ref: "PostAction",
-      default: 0
+      default: []
     },
   },
   creationDate: {

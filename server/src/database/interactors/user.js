@@ -1,11 +1,18 @@
 const User = require("../models/User")
 
+/**
+ *
+ * @param {import("mongoose").HydratedDocument<IUser>} user 
+ * @param {Boolean} full 
+ * @returns {IUserResult}
+ */
 function convert(user, full = false){
   if(full){
     return {
       dbid: user._id.toString(),
       username: user.username,
       password: user.password
+      // FIXME Add The Helper Functions Here
     }
   }else {
     return {
@@ -15,6 +22,12 @@ function convert(user, full = false){
   }
 }
 
+/**
+ * 
+ * @param {String} username 
+ * @param {String} password
+ * @returns {IUserResult}
+ */
 async function createUser(username, password){
   try {
     const result = await  User.create({username: username, password: password})
@@ -25,6 +38,13 @@ async function createUser(username, password){
   }
 }
 
+/**
+ * 
+ * @param {String} username 
+ * @param {Boolean} full 
+ * @param {Boolean} errors 
+ * @returns {IUserResult}
+ */
 async function getUserById(id, full = false, errors = true){
   const result = await User.findById(id)
   
@@ -39,6 +59,13 @@ async function getUserById(id, full = false, errors = true){
   return convert(result, full)
 }
 
+/**
+ * 
+ * @param {String} username 
+ * @param {Boolean} full 
+ * @param {Boolean} errors 
+ * @returns {IUserResult}
+ */
 async function getUserByUsername(username, full = false, errors = true){
   const result = await User.findOne({username})
   

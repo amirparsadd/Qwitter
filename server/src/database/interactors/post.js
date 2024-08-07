@@ -4,6 +4,11 @@ const { getUserById } = require("./user")
 
 cache = {}
 
+/**
+ * 
+ * @param {import("mongoose").HydratedDocument<import("../models/Post").IPost> | null} post 
+ * @returns {import("./PostResult").IPostResult}
+ */
 async function convert(post){
   if(post === null || post === undefined) return null
 
@@ -19,13 +24,18 @@ async function convert(post){
     author,
     uid: post.uid,
     creationDate: post.creationDate,
+    actions: {
+      likes: 0,
+      dislikes: 1 //FIXME Add Real Values
+    },
     content: post.content
+    // FIXME Add The Helper Functions Here
   }
 }
 
 /**
  * 
- * @param {Array} postArray 
+ * @param {Array<import("mongoose").HydratedDocument<import("../models/Post").IPost>>} postArray 
  */
 async function convertArray(postArray){
   const result = []
@@ -51,9 +61,13 @@ async function createPost(userID, content){
   }
 }
 
+/**
+ * 
+ * @param {Array<Number>} range 
+ * @returns {Array<import("./PostResult").IPostResult>}
+ */
 async function getLatestPosts(range = [0 , 50]){
   try {
-    // const startTime = Date.now()
     const result = await Post.find({}).sort({_id: -1}).skip(range[0]).limit(range[1]) // Thanks To My Bro MongoDB AI
     return convertArray(result)
   } catch (err) {
@@ -61,6 +75,11 @@ async function getLatestPosts(range = [0 , 50]){
   }
 }
 
+/**
+ * 
+ * @param {import("./PostResult").IPostResult} uid 
+ * @returns 
+ */
 async function getPostByUID(uid){
   const result = await Post.findOne({ uid })
 

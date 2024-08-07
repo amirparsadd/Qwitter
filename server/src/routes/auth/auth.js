@@ -28,32 +28,6 @@ router.post("/",
     res.sendStatus(200)
 })
 
-// ! DEPREACATED IN FAVOR OF MULTI USAGE AUTH STRATEGY
-// router.post("/signup",
-//   checkSchema(auth_base, ["body"]),
-//   inputValidator,
-//   /**
-//    * 
-//    * @param {import("express").Request} req 
-//    * @param {import("express").Response} res 
-//    * @returns 
-//    */
-//   async ( req, res ) => {
-//     const { body } = req
-
-//     if(req.user) return res.status(400).send(generateJSONError({ msg: "ERR_AUTHORIZED", path: ""}))
-//     if(await getUserByUsername(body["username"], false, false)) return res.status(400).send(generateJSONError({ msg: "ERR_USERNAME_EXISTS", path: "username"}))
-
-//     try {
-//       const user = await createUser(body["username"], hashPassword(body["password"]))
-
-//       res.status(201).send(user)
-//     }catch(err){
-//       res.status(400).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: ""}))
-//       throw err
-//     }
-// })
-
 router.get("/status",
   requiresAuth,
   ( req, res ) => {
