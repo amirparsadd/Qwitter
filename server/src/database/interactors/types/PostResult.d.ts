@@ -1,11 +1,10 @@
 interface IPostResult {
-  uid: string,
+  dbid: string,
   author: IUserResult,
   actions: {
     likes: number,
     dislikes: number
   },
   creationDate: number,
-  content: string,
-  delete: Function
+  content: string
 }

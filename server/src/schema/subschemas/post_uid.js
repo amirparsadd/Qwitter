@@ -4,9 +4,9 @@ module.exports = {
   },
   isLength: { 
     options: {
-      min: 36,
-      max: 36
+      min: 24,
+      max: 24
     },
-    errorMessage: "ERR_POST_UID_LEN_36"
+    errorMessage: "ERR_POST_UID_LEN_24"
   }
 }

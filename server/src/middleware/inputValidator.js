@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator")
 const { generateJSONErrorWithValidator } = require("../utils/error")
+const HttpStatusCode = require("../httpStatusCodes")
 
 /**
  * 

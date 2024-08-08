@@ -10,6 +10,7 @@ const { checkSchema } = require("express-validator")
 const auth_base = require("../../schema/auth_base")
 const requiresAuth = require("../../middleware/requiresAuth")
 const { generateJSONError } = require("../../utils/error")
+const HttpStatusCode = require("../../httpStatusCodes")
 //IMPORTS
 
 const router = Router()
@@ -20,27 +21,27 @@ router.post("/",
   inputValidator,
   ( req, res, next ) => {
     if(req.user) {
-      return res.status(403).send(generateJSONError({ msg: "ERR_AUTHORIZED", path: "" }, 403))
+      return res.status(HttpStatusCode.FORBIDDEN).send(generateJSONError({ msg: "ERR_AUTHORIZED", path: "" }, HttpStatusCode.FORBIDDEN))
     }
 
     next()
   },
   passport.authenticate("local"),
   ( req, res ) => {
-    res.sendStatus(200)
+    res.sendStatus(HttpStatusCode.OK)
 })
 
 router.get("/status",
   requiresAuth,
   ( req, res ) => {
-    return res.status(200).send(req.user)
+    return res.status(HttpStatusCode.OK).send(req.user)
 })
 
 router.post("/logout",
   requiresAuth,
   ( req, res ) => {
     req.logOut({}, err => {
-      if(err) return res.status(500).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: "" }, HttpStatusCode.UNAUTHORIZED))
+      if(err) return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: "" }, HttpStatusCode.INTERNAL_SERVER_ERROR))
       
       return res.status(200).send({ status: 200 })
     })

@@ -5,11 +5,6 @@ function randomUUID(){
 }
 
 const PostSchema = new Schema({
-  uid: {
-    type: String,
-    default: randomUUID,
-    unique: true
-  },
   author: {
     type: Types.ObjectId,
     ref: "User",

@@ -7,20 +7,20 @@ import { getAuthData } from "../../interactor/auth"
 
 type Props = {}
 
-type Author = {
+interface IAuthor {
   dbid: string,
   username: string
 }
 
-type Post = {
-  author: Author,
+interface IPost {
+  author: IAuthor,
   creationDate: number,
   content: string,
-  uid: string
+  dbid: string
 }
 
 function Main({}: Props) {
-  const [ posts, setPosts] = useState<Array<Array<Post>>>([])
+  const [ posts, setPosts] = useState<Array<Array<IPost>>>([])
   const [ batch, setBatch ] = useState(0)
   const [ endOfPosts, setEndOfPosts ] = useState(false)
   const [ username, setUsername ] = useState("loading")
@@ -29,7 +29,7 @@ function Main({}: Props) {
   const [ formEnabled, setFormEnabled ] = useState(true)
 
   const joinedPosts = useMemo(() => {
-    let result: Array<Post> = []
+    let result: Array<IPost> = []
     posts.forEach(chunk => {
       result = [...result, ...chunk]
     })
@@ -95,7 +95,7 @@ function Main({}: Props) {
           posts
           ? joinedPosts.map((val) => {
               console.log(val)
-              return <Qweet uid={val.uid} key={val.uid} currentUser={username} creator={val.author.username} uploadDate={val.creationDate} content={val.content || "Failed To Load"} />
+              return <Qweet uid={val.dbid} key={val.dbid} currentUser={username} creator={val.author.username} uploadDate={val.creationDate} content={val.content || "Failed To Load"} />
             })
           : "An Error Occured While Loading Posts"
         }

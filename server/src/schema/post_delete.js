@@ -1,5 +1,5 @@
-const post_uid = require("./subschemas/post_uid");
+const post_dbid = require("./subschemas/post_uid");
 
 module.exports = {
-  uid: post_uid
+  dbid: post_dbid
 }

@@ -1,15 +1,14 @@
 const { Types } = require("mongoose")
 const Post = require("../models/Post")
 const { getUserById } = require("./user")
-const { PostActions } = require("../models/PostAction")
 
 cache = {}
 
 /**
  * Converts A MongoDB Document To A Universally Usable Object (So If We Want To Switch DBs We Dont Have To Melt Our Brains Off)
  * 
- * @param {import("mongoose").HydratedDocument<import("../models/Post").IPost> | null} post 
- * @returns {import("./PostResult").IPostResult}
+ * @param {import("mongoose").HydratedDocument<import("../models/types/Post").IPost> | null} post 
+ * @returns {import("./types/PostResult").IPostResult}
  */
 async function convert(post){
   if(post === null || post === undefined) return null
@@ -24,21 +23,20 @@ async function convert(post){
 
   return {
     author,
-    uid: post.uid,
+    dbid: post._id.toString(),
     creationDate: post.creationDate,
     actions: {
       likes: post.actions.likes.length,
       dislikes: post.actions.dislikes.length
     },
-    content: post.content,
-    delete: () => deletePostByUID(post.uid)
+    content: post.content
   }
 }
 
 /**
  * Converts A MongoDB Document Array To A Universally Usable Object Array (So If We Want To Switch DBs We Dont Have To Melt Our Brains Off)
  * 
- * @param {Array<import("mongoose").HydratedDocument<import("../models/Post").IPost>>} postArray
+ * @param {Array<import("mongoose").HydratedDocument<import("../models/types/Post").IPost>>} postArray
  * @returns {Array<IPostResult>} 
  */
 async function convertArray(postArray){
@@ -70,7 +68,7 @@ async function createPost(userID, content){
  * Gets A Batch Of The Latest Posts
  * 
  * @param {Array<Number>} range 
- * @returns {Array<import("./PostResult").IPostResult>}
+ * @returns {Array<import("./types/PostResult").IPostResult>}
  */
 async function getLatestPosts(range = [0 , 50]){
   /* TODO fix problems about getting repeated posts when a user on another client creates a post and then the current client requests a new batch
@@ -96,26 +94,26 @@ async function getLatestPosts(range = [0 , 50]){
 }
 
 /**
- * Gets A Post By A UID (NOT AN OBJECTID FROM MONGODB)
+ * Gets A Post
  * 
- * @param {String} uid 
+ * @param {String} dbid 
  * @returns {IPostResult}
  */
-async function getPostByUID(uid){
-  const result = await Post.findOne({ uid })
+async function getPost(dbid){
+  const result = await Post.findById(dbid)
 
   return convert(result)
 }
 
 /**
- * Deletes A Post By A UID (NOT AN OBJECTID FROM MONGODB)
+ * Deletes A Post
  * 
- * @param {String} uid 
+ * @param {String} dbid 
  * @returns {Boolean}
  */
-async function deletePostByUID(uid){
+async function deletePost(dbid){
   try {
-    await Post.findOneAndDelete({ uid })
+    await Post.findByIdAndDelete(dbid)
     return true
   } catch (err) {
     return false
@@ -125,6 +123,6 @@ async function deletePostByUID(uid){
 module.exports = {
   createPost,
   getLatestPosts,
-  getPostByUID,
-  deletePostByUID
+  getPost,
+  deletePost
 }

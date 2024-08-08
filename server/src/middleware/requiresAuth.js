@@ -1,3 +1,4 @@
+const HttpStatusCode = require("../httpStatusCodes")
 const { generateJSONError } = require("../utils/error")
 
 /**
