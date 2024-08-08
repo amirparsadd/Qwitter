@@ -7,6 +7,6 @@ const { generateJSONError } = require("../utils/error")
  * @param {Function} next
  */
 module.exports = ( req, res, next ) => {
-  if (!req.user) return res.status(401).send(generateJSONError({ msg: "ERR_UNAUTHORIZED" }, 401))
+  if (!req.user) return res.status(HttpStatusCode.UNAUTHORIZED).send(generateJSONError({ msg: "ERR_UNAUTHORIZED" }, HttpStatusCode.UNAUTHORIZED))
   next()
 }

@@ -1,5 +1,6 @@
 const LOGGER_NAME = "Auth Router"
 
+//IMPORTS
 const { Router } = require("express")
 const passport = require("passport")
 const startegy = require("../../localStartegy")
@@ -9,6 +10,7 @@ const { checkSchema } = require("express-validator")
 const auth_base = require("../../schema/auth_base")
 const requiresAuth = require("../../middleware/requiresAuth")
 const { generateJSONError } = require("../../utils/error")
+//IMPORTS
 
 const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
@@ -38,7 +40,7 @@ router.post("/logout",
   requiresAuth,
   ( req, res ) => {
     req.logOut({}, err => {
-      if(err) return res.status(500).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: "" }, 401))
+      if(err) return res.status(500).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: "" }, HttpStatusCode.UNAUTHORIZED))
       
       return res.status(200).send({ status: 200 })
     })

@@ -1,6 +1,7 @@
 const User = require("../models/User")
 
 /**
+ * Converts A MongoDB Document To A Universally Usable Object (So If We Want To Switch DBs We Dont Have To Melt Our Brains Off)
  *
  * @param {import("mongoose").HydratedDocument<IUser>} user 
  * @param {Boolean} full 
@@ -22,6 +23,7 @@ function convert(user, full = false){
 }
 
 /**
+ * Creates A User
  * 
  * @param {String} username 
  * @param {String} password
@@ -38,8 +40,9 @@ async function createUser(username, password){
 }
 
 /**
+ * Gets A User By Their ID (MONGODB OBJECTID)
  * 
- * @param {String} username 
+ * @param {String} id
  * @param {Boolean} full 
  * @param {Boolean} errors 
  * @returns {IUserResult}
@@ -59,6 +62,7 @@ async function getUserById(id, full = false, errors = true){
 }
 
 /**
+ * Gets A User By Their Username
  * 
  * @param {String} username 
  * @param {Boolean} full 

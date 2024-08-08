@@ -1,9 +1,9 @@
 const LOGGER_NAME = "Posts Router"
 
+//IMPORTS
 const { Router } = require("express")
 const { param, checkSchema, body } = require("express-validator")
 const inputValidator = require("../../middleware/inputValidator")
-
 const { getLatestPosts, createPost, getPostByUID, deletePostByUID } = require("../../database/interactors/post")
 const posts_get = require("../../schema/posts_get")
 const { log } = require("../../utils/logger")
@@ -11,6 +11,8 @@ const requiresAuth = require("../../middleware/requiresAuth")
 const posts_create = require("../../schema/posts_create")
 const { generateJSONError } = require("../../utils/error")
 const post_delete = require("../../schema/post_delete")
+//IMPORTS
+
 
 const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
@@ -35,7 +37,7 @@ router.post("/",
     const post = await createPost(req.user.dbid, req.body.content)
     
     if(!post) {
-      res.status(400).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: ""}))
+      res.status(HttpStatusCode.BAD_REQUEST).send(generateJSONError({ msg: "ERR_UNEXPECTED", path: ""}))
       throw err
     }
     

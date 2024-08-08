@@ -16,7 +16,7 @@ const init = async () => {
     log(LOGGER_NAME, "🔴 Connection To DB Failed!")
     console.error(err)
 
-    process.exit(1)
+    process.exit(1) // The Server Cannot Work Without A DB
   }
 
   log(LOGGER_NAME, "🍀 Connection To DB Successful!")
