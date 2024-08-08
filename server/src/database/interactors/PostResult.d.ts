@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-
 interface IPostResult {
   uid: string,
   author: IUserResult,

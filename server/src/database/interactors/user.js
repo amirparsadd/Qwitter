@@ -12,7 +12,6 @@ function convert(user, full = false){
       dbid: user._id.toString(),
       username: user.username,
       password: user.password
-      // FIXME Add The Helper Functions Here
     }
   }else {
     return {
