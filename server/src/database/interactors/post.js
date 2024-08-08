@@ -25,11 +25,11 @@ async function convert(post){
     uid: post.uid,
     creationDate: post.creationDate,
     actions: {
-      likes: 0,
-      dislikes: 1 //FIXME Add Real Values
+      likes: post.actions.likes.length,
+      dislikes: post.actions.dislikes.length
     },
-    content: post.content
-    // FIXME Add The Helper Functions Here
+    content: post.content,
+    delete: () => deletePostByUID(post.uid)
   }
 }
 

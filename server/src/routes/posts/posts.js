@@ -52,7 +52,7 @@ router.delete("/:uid/",
     
     if(req.user.dbid != post.author.dbid) return res.status(403).send(generateJSONError({ msg: "ERR_POST_OWNERSHIP", path: "uid" }, 403))
       
-    const action = await deletePostByUID(req.params.uid)
+    const action = await post.delete()
     
     if(action){
       return res.sendStatus(200)

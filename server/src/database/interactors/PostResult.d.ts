@@ -8,5 +8,6 @@ interface IPostResult {
     dislikes: number
   },
   creationDate: number,
-  content: string
+  content: string,
+  delete: Function
 }
