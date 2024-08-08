@@ -35,7 +35,8 @@ async function convert(post){
 
 /**
  * 
- * @param {Array<import("mongoose").HydratedDocument<import("../models/Post").IPost>>} postArray 
+ * @param {Array<import("mongoose").HydratedDocument<import("../models/Post").IPost>>} postArray
+ * @returns {Array<IPostResult>} 
  */
 async function convertArray(postArray){
   const result = []
