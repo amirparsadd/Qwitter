@@ -73,7 +73,7 @@ async function createPost(userID, content){
 async function getLatestPosts(range = [0 , 50]){
   const START = 0
   const END = 1
-  /* TODO fix problems about getting repeated posts when a user on another client creates a post and then the current client requests a new batch
+  /* FIXME fix problems about getting repeated posts when a user on another client creates a post and then the current client requests a new batch
 
     Example:
       DB : P1, P2, P3, P4
@@ -88,7 +88,11 @@ async function getLatestPosts(range = [0 , 50]){
 
   */
   try {
-    const result = await Post.find({}).sort({_id: -1}).skip(range[START]).limit(range[END]) // Thanks To My Bro MongoDB AI
+    const result = 
+      await Post.find({})
+        .sort({_id: -1})
+        .skip(range[START])
+        .limit(range[END]) // Thanks To My Bro MongoDB AI
     return convertArray(result)
   } catch (err) {
     throw err
