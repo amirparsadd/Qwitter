@@ -3,6 +3,7 @@ const { generateJSONErrorWithValidator } = require("../utils/error")
 const HttpStatusCode = require("../httpStatusCodes")
 
 /**
+ * Validates input with `express-validator`
  * 
  * @param {import("express").Request} req 
  * @param {import("express").Response} res 

@@ -3,6 +3,7 @@ const LOGGER_NAME = "Logger Middleware"
 const { log } = require("../utils/logger")
 
 /**
+ * Logs Every Request Endpoint
  * 
  * @param {import("express").Request} req 
  * @param {import("express").Response} res

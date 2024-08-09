@@ -2,6 +2,7 @@ const HttpStatusCode = require("../httpStatusCodes")
 const { generateJSONError } = require("../utils/error")
 
 /**
+ * Throws A 401 If The User Is Unauthorized
  * 
  * @param {import("express").Request} req 
  * @param {import("express").Response} res

@@ -18,6 +18,9 @@ const HttpStatusCode = require("../../httpStatusCodes")
 const router = Router()
 log(LOGGER_NAME, "🌐 Router Is Up")
 
+const actionRouter = require("./action")
+router.use("/action", actionRouter)
+
 router.get("/:batch/",
   requiresAuth,
   checkSchema(posts_get, ["params"]),
