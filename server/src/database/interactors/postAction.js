@@ -20,7 +20,7 @@ function convert(actionDocument){
  * 
  * @param {String} userID 
  * @param {String} postID 
- * @param {import("../models/types/PostAction").PostActions} action 
+ * @param {String} action 
  */
 async function createAction(userID, postID, action){
   try{
@@ -38,6 +38,8 @@ async function createAction(userID, postID, action){
       case "DISLIKE":
         post.actions.dislikes.push(result)
         break
+      default:
+        return null
     }
 
     return convert(result)
@@ -52,7 +54,7 @@ async function createAction(userID, postID, action){
  * 
  * @param {String} userID 
  * @param {String} postID 
- * @param {import("../models/types/PostAction").PostActions} action 
+ * @param {String} action 
  */
 async function removeAction(userID, postID, action){
   try{
@@ -71,6 +73,8 @@ async function removeAction(userID, postID, action){
       case "DISLIKE":
         post.actions.dislikes.splice(post.actions.dislikes.indexOf(deletedAction._id), 1)
         break
+      default:
+        return false
     }
 
     post.save()

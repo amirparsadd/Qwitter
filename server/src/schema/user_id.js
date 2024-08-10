@@ -1,5 +1,5 @@
-const id_user = require("./subschemas/id_user")
+const dbid = require("./subschemas/dbid")
 
 module.exports = {
-  id: id_user
+  id: dbid
 }

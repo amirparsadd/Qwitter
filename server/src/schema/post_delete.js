@@ -1,5 +1,5 @@
-const post_dbid = require("./subschemas/post_uid");
+const dbid = require("./subschemas/dbid");
 
 module.exports = {
-  dbid: post_dbid
+  dbid
 }
