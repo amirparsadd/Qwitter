@@ -10,7 +10,7 @@ const { log } = require("../utils/logger")
  * @param {Function} next
  */
 module.exports = ( req, res, next ) => {
-  log(LOGGER_NAME, `💬 New Request At ${req.url}`)
+  log(LOGGER_NAME, `💬 New ${req.method} At ${req.url}`)
 
   next()
 }
