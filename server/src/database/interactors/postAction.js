@@ -2,6 +2,8 @@ const { Types } = require("mongoose")
 const PostAction = require("../models/PostAction")
 const Post = require("../models/Post")
 
+// TODO Make an isActionFound Function To Prevent Multiple Likes By One User
+
 /**
  * 
  * @param {import("mongoose").HydratedDocument<import("../models/types/PostAction").IPostAction>} actionDocument
@@ -28,19 +30,21 @@ async function createAction(userID, postID, action){
      * @type {import("mongoose").HydratedDocument<import("../models/types/Post").IPost>}
      */
     const post = await Post.findById(postID)
-
-    const result = await PostAction.create({ authorID: Types.ObjectId(userID), postID: Types.ObjectId(postID), action })
-
+    
+    const result = await PostAction.create({ authorID: new Types.ObjectId(userID), postID: new Types.ObjectId(postID), action })
+    
     switch (action) {
       case "LIKE":
-        post.actions.likes.push(result)
+        post.actions.likes.push(result._id)
         break
       case "DISLIKE":
-        post.actions.dislikes.push(result)
+        post.actions.dislikes.push(result._id)
         break
       default:
         return null
     }
+
+    post.save()
 
     return convert(result)
   } catch (err){

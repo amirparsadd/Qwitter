@@ -19,7 +19,7 @@ function generateJSONErrorWithValidator(result, status = HttpStatusCode.BAD_REQU
 /**
  * Create a JSON Error
  * 
- * @param {IServerError} error
+ * @param {IServerErrorGeneratorOptions} error
  * @param {number} status 
  * @returns {IServerError}
  */
