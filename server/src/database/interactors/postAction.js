@@ -5,6 +5,25 @@ const Post = require("../models/Post")
 // TODO Make an isActionFound Function To Prevent Multiple Likes By One User
 
 /**
+ * Returns True If The Action Was Found And False Otherwise
+ * Returns Null If Anything Unexpected Happened
+ * 
+ * @param {String} userID 
+ * @param {String} postID 
+ * @param {String} action 
+ */
+async function isActionFound(userID, postID, action){
+  try {
+    const result = await PostAction.findOne({authorID: userID, postID, action})
+
+    return result ? true : false
+
+  } catch (err) {
+    return null
+  }
+}
+
+/**
  * 
  * @param {import("mongoose").HydratedDocument<import("../models/types/PostAction").IPostAction>} actionDocument
  * @returns {import("./types/PostActionResult").IPostActionResult}
@@ -91,5 +110,6 @@ async function removeAction(userID, postID, action){
 
 module.exports = {
   createAction,
-  removeAction
+  removeAction,
+  isActionFound
 }
