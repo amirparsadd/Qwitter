@@ -2,8 +2,6 @@ const { Types } = require("mongoose")
 const PostAction = require("../models/PostAction")
 const Post = require("../models/Post")
 
-// TODO Make an isActionFound Function To Prevent Multiple Likes By One User
-
 /**
  * Returns True If The Action Was Found And False Otherwise
  * Returns Null If Anything Unexpected Happened
@@ -84,7 +82,7 @@ async function removeAction(userID, postID, action){
     const post = await Post.findById(postID)
     const deletedAction = await PostAction.findOneAndDelete(
       {
-        authorID: Types.ObjectId(userID),
+        authorID: new Types.ObjectId(userID),
         postID,
         action
       })
