@@ -1,18 +1,22 @@
 import prettyMilliseconds from "pretty-ms"
 import { FaThumbsDown, FaThumbsUp, FaTrashCan } from "react-icons/fa6"
 import { deletePost } from "../interactor/posts"
+import { IPostActions } from "../pages/Main/Main"
 
 type Props = {
   uploadDate: number,
   creator: string,
   content: string,
   currentUser: string, // The Current Viewing User's Username
-  uid: string
+  uid: string,
+  actions: IPostActions
 }
 
-function Qweet({ uploadDate, creator, content, currentUser, uid }: Props) {
+function Qweet({ uploadDate, creator, content, currentUser, uid, actions }: Props) {
+  const likesDisplayNumber = actions.likes - actions.dislikes
+
   return (
-    <div className='bg-[#3b3b3b] w-[45vw] rounded-md p-4 m-2'>
+    <div className='bg-[#3b3b3b] rounded-md p-4 m-2'>
       <div className="flex justify-between">
         <div className="font-bold flex items-center gap-2">
           <span>
@@ -36,9 +40,20 @@ function Qweet({ uploadDate, creator, content, currentUser, uid }: Props) {
                 </div>
           }
         </div>
-        <span className="opacity-80 font-light text-sm">
-          {prettyMilliseconds(Date.now() - uploadDate, { compact: true })} ago
-        </span>
+        <div className="flex flex-row gap-2 items-center">
+          <span className={`font-light text-sm ${likesDisplayNumber < 0 ? "text-red-500" : "text-green-300"}`}>
+            {
+              likesDisplayNumber < 0
+              ? likesDisplayNumber
+              : "+" + likesDisplayNumber
+            }
+          </span>
+
+          <span className="opacity-80 font-light text-sm">
+            {prettyMilliseconds(Date.now() - uploadDate, { compact: true })} ago
+          </span>
+
+        </div>
       </div>
 
       <p className="text-[11pt]">

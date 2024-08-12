@@ -16,7 +16,13 @@ interface IPost {
   author: IAuthor,
   creationDate: number,
   content: string,
-  dbid: string
+  dbid: string,
+  actions: IPostActions
+}
+
+export interface IPostActions {
+  likes: number,
+  dislikes: number
 }
 
 function Main({}: Props) {
@@ -90,12 +96,12 @@ function Main({}: Props) {
 
   return (
     <div className='w-[95dvw] flex flex-col'>
-      <div className="flex flex-row flex-wrap">
+      <div className="grid grid-cols-3 w-screen">
         {
           posts
           ? joinedPosts.map((val) => {
               console.log(val)
-              return <Qweet uid={val.dbid} key={val.dbid} currentUser={username} creator={val.author.username} uploadDate={val.creationDate} content={val.content || "Failed To Load"} />
+              return <Qweet uid={val.dbid} key={val.dbid} actions={val.actions} currentUser={username} creator={val.author.username} uploadDate={val.creationDate} content={val.content || "Failed To Load"} />
             })
           : "An Error Occured While Loading Posts"
         }
