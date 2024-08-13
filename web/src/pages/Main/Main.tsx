@@ -100,7 +100,6 @@ function Main({}: Props) {
         {
           posts
           ? joinedPosts.map((val) => {
-              console.log(val)
               return <Qweet uid={val.dbid} key={val.dbid} actions={val.actions} currentUser={username} creator={val.author.username} uploadDate={val.creationDate} content={val.content || "Failed To Load"} />
             })
           : "An Error Occured While Loading Posts"
