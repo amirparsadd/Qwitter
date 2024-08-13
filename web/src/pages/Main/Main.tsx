@@ -96,7 +96,7 @@ function Main({}: Props) {
 
   return (
     <div className='w-[95dvw] flex flex-col'>
-      <div className="grid grid-cols-3 w-screen">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 w-screen">
         {
           posts
           ? joinedPosts.map((val) => {
